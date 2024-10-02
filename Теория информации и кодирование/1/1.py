@@ -1,28 +1,39 @@
 import random
 import math
+import pandas as pd
 
-N = 10
 
-def calculate_information(probs):
+
+def calculate_information(probs): #Формула Шеннона
     information = 0
     for p in probs:
             information -= p * math.log2(p)
     return information
 
 
-for i in range(1,7):
-    N = N + 1
-    print(f"-----------------ТЕСТ-{i}------------------")
+def generate_array(N):
     probabilities = [random.random() for _ in range(N)]
     normalize_probabilities = [p / sum(probabilities) for p in probabilities]
+    return normalize_probabilities
 
-    max_entropy = math.log2(N)  # (Формула Шеннона)
+avg_inf = 0
+experement_count = 6
+
+for i in range(experement_count):
+
+    N = 11
+    print(f"-----------------ТЕСТ-{i+1}------------------")
+
+    normalize_probabilities = generate_array(N)
+    max_entropy = math.log2(N)
     average_information = calculate_information(normalize_probabilities)
     
-    print(f"N:{N}")
-    print(f"Вероятности: {normalize_probabilities}")
+    print(f"Вероятности:\n{pd.DataFrame(normalize_probabilities).to_string(header=False)}")
     print(f"Максимальная энтропия: {max_entropy:.4f} бит")
-    print(f"Среднее количество информации: {average_information:.4f} бит")
-
-    print ("---------------------------------------------")
+    print(f"Количество информации: {average_information:.4f} бит")
     
+    avg_inf += average_information
+
+print("---------------------------------------------------------------------------------------------")
+print(f"Среднее кол-во информации за {experement_count} эксперементов:{avg_inf/experement_count} бит")
+
