@@ -34,8 +34,8 @@ def generate_matrix_P_X_Y(N,q):
 
 def create_var(N,q):
     P_X_Y = generate_matrix_P_X_Y(N,q) # матрица переходов
-    P_X = generate_P_X(N) # входные сообщения
-    time = generate_time(N) # список длительности сообщений
+    P_X = generate_P_X(N) # матрица входных сообщений
+    time = generate_time(N) # массив с длительностями сообщений в милисекундах
     H_X = -sum([p * math.log2(p) for p in P_X]) # энтропия на входе в канал
 
     return P_X_Y,P_X,time,H_X
