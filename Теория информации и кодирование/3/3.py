@@ -1,5 +1,6 @@
 import math
 import random
+import pandas as pd
 
 N = 11
 q = 1 / (2 * N)
@@ -11,6 +12,7 @@ def generate_P_X(N):
     P_X = [p / sum(P_X) for p in P_X]
     return P_X
 
+
 #б)сгенерировать длительности каждого символа сообщения;
 
 def generate_time(N):
@@ -18,19 +20,29 @@ def generate_time(N):
 
     return message_times
 
+
+
+
+
 '''#в)сгенерировать матрицу переходов со входа на выход в канале передачи информации 
 с помехами с учетом технического задания, используя счетчик случайных чисел;'''
 
-def generate_matrix_P_X_Y(N,q):
+def generate_matrix_P_X_Y(N, q):
     P_X_Y_noise = [[0] * N for _ in range(N)]
     for i in range(N):
         for j in range(N):
             if i == j:
                 P_X_Y_noise[i][j] = 1 - q
             else:
-                P_X_Y_noise[i][j] = q / (N - 1)
+                P_X_Y_noise[i][j] = random.uniform(0, q / (N - 1))
+
+    for i in range(N):
+        row_sum = sum(P_X_Y_noise[i])
+        for j in range(N):
+            P_X_Y_noise[i][j] /= row_sum
 
     return P_X_Y_noise
+
 
 def create_var(N,q):
     P_X_Y = generate_matrix_P_X_Y(N,q) # матрица переходов
