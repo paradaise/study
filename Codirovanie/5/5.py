@@ -1,72 +1,65 @@
 import random
-import numpy as np
-k = 11
 
-# Генерация случайной информационной комбинации
-def generate_information_combination(k):
-    return [random.randint(0, 1) for _ in range(k)]
+#генерация входного сообщения
+def generate_random_bits(n):
+    return [random.randint(0, 1) for _ in range(n)]
 
-# Рассчёт количества проверочных битов
-def calculate_parity_bits_count(k):
+def calculate_hamming_code(data_bits):
+    # Рассчитываем код Хэмминга на основе входных данных
+    n = len(data_bits)
     r = 0
-    while (2**r) < (k + r + 1):
+    while (2**r) < (n + r + 1):
         r += 1
-    return r
+    total_bits = n + r
+    hamming_code = [0] * total_bits
 
-# Вставка проверочных битов
-def insert_parity_bits(data, r):
-    n = len(data) + r
-    hamming_code = [0] * n
+    # Располагаем информационные биты в коде Хэмминга
     j = 0
-    for i in range(1, n+1):
-        if (i & (i - 1)) == 0:  # Пропускаем позиции степени двойки
-            continue
-        hamming_code[i-1] = data[j]
-        j += 1
-    return hamming_code
+    for i in range(1, total_bits + 1):
+        if i & (i - 1) != 0:
+            hamming_code[i - 1] = data_bits[j]
+            j += 1
 
-# Рассчёт проверочных битов
-def calculate_parity_bits(hamming_code, r):
-    n = len(hamming_code)
+    # Рассчитываем значения контрольных битов
     for i in range(r):
-        parity_bit_position = 2**i # позиция проверочного бита
-        parity = 0 #проверочная сумма 
-        for j in range(1, n + 1):
-            if j & parity_bit_position and j != parity_bit_position:
-                parity ^= hamming_code[j - 1]
-        hamming_code[parity_bit_position - 1] = parity
+        control_bit_position = 2**i
+        control_sum = 0
+        for j in range(1, total_bits + 1):
+            if j & control_bit_position != 0:
+                control_sum ^= hamming_code[j - 1]
+        hamming_code[control_bit_position - 1] = control_sum
+
     return hamming_code
 
-# Введение ошибок в код
-def introduce_errors(code, num_errors):
-    positions = random.sample(range(len(code)), num_errors)
-    code_with_errors = code.copy()
-    for pos in positions:
-        code_with_errors[pos] ^= 1
-    return code_with_errors, positions
+# вводим ошибки в код Хэмминга
+def introduce_errors(hamming_code, num_errors=1): 
+    corrupted_code = hamming_code[:]
+    error_indices = random.sample(range(len(hamming_code)), num_errors) # позиции ошибок
+    for idx in error_indices:
+        corrupted_code[idx] ^= 1  # Инвертируем бит
+    return corrupted_code, error_indices
 
-# Проверка и определение синдрома ошибки
-def calculate_syndrome(received_code, r):
-    n = len(received_code)
+#вычисление синдрома ошибки
+def calculate_syndrome(corrupted_code, r):
     syndrome = 0
     for i in range(r):
-        parity_bit_position = 2**i # позиция проверочного бита
-        parity = 0 #проверочная сумма
-        for j in range(1, n+1):
-            if j & parity_bit_position:
-                parity ^= received_code[j - 1]
-        if parity:
-            syndrome += parity_bit_position
+        control_bit_position = 2**i
+        control_sum = 0
+        for j in range(1, len(corrupted_code) + 1):
+            if j & control_bit_position != 0: # проверка входит ли текущая позиция(j) в область проверки бита
+                control_sum ^= corrupted_code[j - 1]
+        syndrome |= (control_sum << i)
     return syndrome
 
-# Исправление ошибки
-def correct_errors(code, syndrome):
-    if syndrome:
-        code[syndrome - 1] ^= 1
-    return code
+#исправление ошибки в коде Хеминга
+def correct_single_error(corrupted_code, syndrome):
+    if syndrome > 0:
+        error_position = syndrome - 1
+        corrupted_code[error_position] ^= 1  # Исправляем ошибку
+    return corrupted_code
 
 # Извлечение исходной информационной комбинации из исправленного кода Хэмминга
-def extract_information_bits(hamming_code, r):
+def extract_information_bits(hamming_code):
     data = []
     n = len(hamming_code)
     for i in range(1, n + 1):
@@ -74,43 +67,41 @@ def extract_information_bits(hamming_code, r):
             data.append(hamming_code[i - 1])
     return data
 
+
 def main():
-    message = generate_information_combination(k)
-    print("Информационная комбинация:", message)
-    
-    r = calculate_parity_bits_count(k)
-    print("Количество проверочных бит:", r)
-    
-    hamming_code = insert_parity_bits(message, r)
-    hamming_code = calculate_parity_bits(hamming_code, r)
-    print("Код Хэмминга без ошибки:", hamming_code)
+    n = 11  # Количество информационных битов
+    r = 4   # Количество контрольных битов
 
-    # Внесение ошибок
-    num_errors = random.randint(0, 2)
-    code_with_errors, error_positions = introduce_errors(hamming_code, num_errors)
-    print("Код с ошибками:", code_with_errors)
-    print("Позиции ошибок:", error_positions)
+    for attempt in range(6):  # 6 попыток
+        print(f"\nЭксперимент {attempt + 1}:")
 
-    # Вычисление синдрома и исправление ошибок
-    syndrome = calculate_syndrome(code_with_errors, r)
-    print("Синдром ошибки:", syndrome)
-    
-    if syndrome:
-        corrected_code = correct_errors(code_with_errors, syndrome)
-        print("Исправленный код:", corrected_code)
-    else:
-        corrected_code = code_with_errors
-        print("Ошибок нет")
+        # 1. Генерация информационных битов
+        data_bits = generate_random_bits(n)
+        print("Сгенерированные информационные биты:", data_bits)
 
-    # Извлечение исходной информационной комбинации
-    extracted_message = extract_information_bits(corrected_code, r)
-    print("Извлеченная информационная комбинация:", extracted_message)
+        # 2. Код Хэмминга
+        hamming_code = calculate_hamming_code(data_bits)
+        print("Код Хэмминга:", hamming_code)
 
-    if np.array_equal(hamming_code, corrected_code):
-        print('Код Хэмминга без ошибок и исправленный код совпадают')
+        # 3. Введение ошибок (одной или двух)
+        num_errors = random.choice([1, 2])
+        corrupted_code, error_indices = introduce_errors(hamming_code, num_errors)
+        print("Код с ошибками:", corrupted_code)
+        print("Индексы ошибок:", error_indices)
 
-    if np.array_equal(extracted_message, message):
-        print('Входная комбинация и выходные информационные биты совпадают')
+        # 4. Вычисление синдрома
+        if num_errors == 1:
+            syndrome = calculate_syndrome(corrupted_code, r)
+            print("Синдром ошибки:", syndrome)
 
-if __name__ == "__main__":
-    main()
+        # 5. Исправление ошибки, если она однократная
+        if  num_errors == 1:
+            corrected_haming_code = correct_single_error(corrupted_code[:], syndrome)
+            corrected_input_code = extract_information_bits(corrected_haming_code)
+            print("Исправленный код Хемминга:", corrected_haming_code)
+            print("Обнаружена однократная ошибка")
+            print("Входное сообщение без проверочных битов:", corrected_input_code)
+        elif num_errors == 2:
+            print("Обнаружена двукратная ошибка")
+
+main()
