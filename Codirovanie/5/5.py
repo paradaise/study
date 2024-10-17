@@ -5,7 +5,7 @@ def generate_random_bits(n):
     return [random.randint(0, 1) for _ in range(n)]
 
 def calculate_hamming_code(data_bits):
-    # Рассчитываем код Хэмминга на основе входных данных
+    # Считаем кол-во проверочных битов
     n = len(data_bits)
     r = 0
     while (2**r) < (n + r + 1):
@@ -13,23 +13,23 @@ def calculate_hamming_code(data_bits):
     total_bits = n + r
     hamming_code = [0] * total_bits
 
-    # Располагаем информационные биты в коде Хэмминга
+    # Располагаем информационные биты в коде Хэмминга(выбираем место под них)
     j = 0
     for i in range(1, total_bits + 1):
-        if i & (i - 1) != 0:
+        if i & (i - 1) != 0: #проверяем эллемент является ли он степенью двойки
             hamming_code[i - 1] = data_bits[j]
             j += 1
 
     # Рассчитываем значения контрольных битов
     for i in range(r):
-        control_bit_position = 2**i
+        control_bit_position = 2**i #позиция проверочного бита(степень двойки)
         control_sum = 0
         for j in range(1, total_bits + 1):
             if j & control_bit_position != 0:
                 control_sum ^= hamming_code[j - 1]
         hamming_code[control_bit_position - 1] = control_sum
 
-    return hamming_code
+    return hamming_code,r
 
 # вводим ошибки в код Хэмминга
 def introduce_errors(hamming_code, num_errors=1): 
@@ -43,12 +43,13 @@ def introduce_errors(hamming_code, num_errors=1):
 def calculate_syndrome(corrupted_code, r):
     syndrome = 0
     for i in range(r):
-        control_bit_position = 2**i
+        control_bit_position = 2**i #позиция проверочного бита(степень двойки)
         control_sum = 0
         for j in range(1, len(corrupted_code) + 1):
             if j & control_bit_position != 0: # проверка входит ли текущая позиция(j) в область проверки бита
                 control_sum ^= corrupted_code[j - 1]
         syndrome |= (control_sum << i)
+        print(syndrome)
     return syndrome
 
 #исправление ошибки в коде Хеминга
@@ -70,7 +71,6 @@ def extract_information_bits(hamming_code):
 
 def main():
     n = 11  # Количество информационных битов
-    r = 4   # Количество контрольных битов
 
     for attempt in range(6):  # 6 попыток
         print(f"\nЭксперимент {attempt + 1}:")
@@ -80,7 +80,7 @@ def main():
         print("Сгенерированные информационные биты:", data_bits)
 
         # 2. Код Хэмминга
-        hamming_code = calculate_hamming_code(data_bits)
+        hamming_code,r = calculate_hamming_code(data_bits)
         print("Код Хэмминга:", hamming_code)
 
         # 3. Введение ошибок (одной или двух)
