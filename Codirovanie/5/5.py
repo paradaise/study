@@ -49,7 +49,6 @@ def calculate_syndrome(corrupted_code, r):
             if j & control_bit_position != 0: # проверка входит ли текущая позиция(j) в область проверки бита
                 control_sum ^= corrupted_code[j - 1]
         syndrome |= (control_sum << i)
-        print(syndrome)
     return syndrome
 
 #исправление ошибки в коде Хеминга
