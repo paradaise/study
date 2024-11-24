@@ -22,15 +22,15 @@ def create_verification_matrix(P, K, d_min):
 def create_systemic_code(P, d_min, info_array):
     K = len(info_array)
     systemic_code = np.zeros(P + K, dtype=int)
-    systemic_code[:K] = info_array
+    systemic_code[:K] = info_array 
     verification_matrix = create_verification_matrix(P, K, d_min)
     for i in range(P):
-        systemic_code[K + i] = np.sum(info_array * verification_matrix[:K, i]) % 2
+        systemic_code[K + i] = np.sum(info_array * verification_matrix[:K, i]) % 2 #выбираем какое значение будет у проверочного бита 0 или 1
     return systemic_code, verification_matrix
 
 def search_error(P, d_min, systemic_code):
     verification_matrix = create_verification_matrix(P, len(systemic_code) - P, d_min)
-    syndrom = np.array([(np.sum(systemic_code * verification_matrix[:, i]) % 2) for i in range(P)])
+    syndrom = np.array([(np.sum(systemic_code * verification_matrix[:, i]) % 2) for i in range(P)]) #определяем синдром ошибки
     for i in range(len(systemic_code)):
         if np.array_equal(syndrom, verification_matrix[i]):
             return i + 1, i+2
@@ -41,7 +41,7 @@ def main():
     
     for experiment in range(1, num_experiments + 1):
         # Генерация случайного входного сообщения
-        K = 13
+        K = 13 #длинна сообщения
         input_str = ''.join(random.choice('01') for _ in range(K))
         info_array = np.array([int(bit) for bit in input_str])
         
@@ -49,13 +49,16 @@ def main():
         print("Входное сообщение:", input_str)
         
         # Создание систематического кода
-        N = K
-        d_min = 2 * 1 + 1
-        while 2**K > (2**N / (N + 1)):
+
+        N = K#K-информационные разряды
+        d_min = 2 * 1 + 1 #d_min-минимальное растояние ошибок
+        while 2**K > (2**N / (N + 1)): #из методички считаем N
             N += 1
-        systemic_code, verification_matrix = create_systemic_code(N - K, d_min, info_array)
+        P = N - K #P-кол-во проверочных разрядов
+        
+        systemic_code, verification_matrix = create_systemic_code(P, d_min, info_array)
         print("Систематический код:", ''.join(map(str, systemic_code)))
-        print("Производящая матрица (Pn,k):\n", verification_matrix)
+        print("Проверочная матрица (Pn,k):\n", verification_matrix)
         
         # Внесение ошибки в случайный бит систематического кода
         error_index = random.randint(0, N - 1)
