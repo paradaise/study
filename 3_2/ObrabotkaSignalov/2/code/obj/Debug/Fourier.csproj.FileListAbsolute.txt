@@ -1,0 +1,63 @@
+W:\Study\alghorithms\Fourier\bin\Debug\Fourier.exe.config
+W:\Study\alghorithms\Fourier\bin\Debug\Fourier.exe
+W:\Study\alghorithms\Fourier\bin\Debug\Fourier.pdb
+W:\Study\alghorithms\Fourier\obj\Debug\Fourier.csprojAssemblyReference.cache
+W:\Study\alghorithms\Fourier\obj\Debug\Fourier.Form1.resources
+W:\Study\alghorithms\Fourier\obj\Debug\Fourier.Properties.Resources.resources
+W:\Study\alghorithms\Fourier\obj\Debug\Fourier.csproj.GenerateResource.cache
+W:\Study\alghorithms\Fourier\obj\Debug\Fourier.csproj.CoreCompileInputs.cache
+W:\Study\alghorithms\Fourier\obj\Debug\Fourier.exe
+W:\Study\alghorithms\Fourier\obj\Debug\Fourier.pdb
+C:\Users\sqd\Desktop\Цифровая обработка сигналов\Fourier\Fourier\bin\Debug\Fourier.exe.config
+C:\Users\sqd\Desktop\Цифровая обработка сигналов\Fourier\Fourier\bin\Debug\Fourier.exe
+C:\Users\sqd\Desktop\Цифровая обработка сигналов\Fourier\Fourier\bin\Debug\Fourier.pdb
+C:\Users\sqd\Desktop\Цифровая обработка сигналов\Fourier\Fourier\obj\Debug\Fourier.csproj.AssemblyReference.cache
+C:\Users\sqd\Desktop\Цифровая обработка сигналов\Fourier\Fourier\obj\Debug\Fourier.csproj.SuggestedBindingRedirects.cache
+C:\Users\sqd\Desktop\Цифровая обработка сигналов\Fourier\Fourier\obj\Debug\Fourier.Form1.resources
+C:\Users\sqd\Desktop\Цифровая обработка сигналов\Fourier\Fourier\obj\Debug\Fourier.Properties.Resources.resources
+C:\Users\sqd\Desktop\Цифровая обработка сигналов\Fourier\Fourier\obj\Debug\Fourier.csproj.GenerateResource.cache
+C:\Users\sqd\Desktop\Цифровая обработка сигналов\Fourier\Fourier\obj\Debug\Fourier.csproj.CoreCompileInputs.cache
+C:\Users\sqd\Desktop\Цифровая обработка сигналов\Fourier\Fourier\obj\Debug\Fourier.exe
+C:\Users\sqd\Desktop\Цифровая обработка сигналов\Fourier\Fourier\obj\Debug\Fourier.pdb
+C:\Users\sqd\Desktop\Цифровая обработка сигналов\Fourier 1.1\Fourier\bin\Debug\Fourier.exe.config
+C:\Users\sqd\Desktop\Цифровая обработка сигналов\Fourier 1.1\Fourier\bin\Debug\Fourier.exe
+C:\Users\sqd\Desktop\Цифровая обработка сигналов\Fourier 1.1\Fourier\bin\Debug\Fourier.pdb
+C:\Users\sqd\Desktop\Цифровая обработка сигналов\Fourier 1.1\Fourier\obj\Debug\Fourier.csproj.AssemblyReference.cache
+C:\Users\sqd\Desktop\Цифровая обработка сигналов\Fourier 1.1\Fourier\obj\Debug\Fourier.csproj.SuggestedBindingRedirects.cache
+C:\Users\sqd\Desktop\Цифровая обработка сигналов\Fourier 1.1\Fourier\obj\Debug\Fourier.Form1.resources
+C:\Users\sqd\Desktop\Цифровая обработка сигналов\Fourier 1.1\Fourier\obj\Debug\Fourier.Properties.Resources.resources
+C:\Users\sqd\Desktop\Цифровая обработка сигналов\Fourier 1.1\Fourier\obj\Debug\Fourier.csproj.GenerateResource.cache
+C:\Users\sqd\Desktop\Цифровая обработка сигналов\Fourier 1.1\Fourier\obj\Debug\Fourier.csproj.CoreCompileInputs.cache
+C:\Users\sqd\Desktop\Цифровая обработка сигналов\Fourier 1.1\Fourier\obj\Debug\Fourier.exe
+C:\Users\sqd\Desktop\Цифровая обработка сигналов\Fourier 1.1\Fourier\obj\Debug\Fourier.pdb
+C:\Users\oblak\Documents\Study\3 course\sygnals\Fourier 1.1\Fourier\bin\Debug\Fourier.exe.config
+C:\Users\oblak\Documents\Study\3 course\sygnals\Fourier 1.1\Fourier\bin\Debug\Fourier.exe
+C:\Users\oblak\Documents\Study\3 course\sygnals\Fourier 1.1\Fourier\bin\Debug\Fourier.pdb
+C:\Users\oblak\Documents\Study\3 course\sygnals\Fourier 1.1\Fourier\obj\Debug\Fourier.csproj.AssemblyReference.cache
+C:\Users\oblak\Documents\Study\3 course\sygnals\Fourier 1.1\Fourier\obj\Debug\Fourier.csproj.SuggestedBindingRedirects.cache
+C:\Users\oblak\Documents\Study\3 course\sygnals\Fourier 1.1\Fourier\obj\Debug\Fourier.Form1.resources
+C:\Users\oblak\Documents\Study\3 course\sygnals\Fourier 1.1\Fourier\obj\Debug\Fourier.Properties.Resources.resources
+C:\Users\oblak\Documents\Study\3 course\sygnals\Fourier 1.1\Fourier\obj\Debug\Fourier.csproj.GenerateResource.cache
+C:\Users\oblak\Documents\Study\3 course\sygnals\Fourier 1.1\Fourier\obj\Debug\Fourier.csproj.CoreCompileInputs.cache
+C:\Users\oblak\Documents\Study\3 course\sygnals\Fourier 1.1\Fourier\obj\Debug\Fourier.exe
+C:\Users\oblak\Documents\Study\3 course\sygnals\Fourier 1.1\Fourier\obj\Debug\Fourier.pdb
+C:\Users\kosty\OneDrive\Рабочий стол\Fourier\bin\Debug\Fourier.exe.config
+C:\Users\kosty\OneDrive\Рабочий стол\Fourier\bin\Debug\Fourier.exe
+C:\Users\kosty\OneDrive\Рабочий стол\Fourier\bin\Debug\Fourier.pdb
+C:\Users\kosty\OneDrive\Рабочий стол\Fourier\obj\Debug\Fourier.csproj.AssemblyReference.cache
+C:\Users\kosty\OneDrive\Рабочий стол\Fourier\obj\Debug\Fourier.Form1.resources
+C:\Users\kosty\OneDrive\Рабочий стол\Fourier\obj\Debug\Fourier.Properties.Resources.resources
+C:\Users\kosty\OneDrive\Рабочий стол\Fourier\obj\Debug\Fourier.csproj.GenerateResource.cache
+C:\Users\kosty\OneDrive\Рабочий стол\Fourier\obj\Debug\Fourier.csproj.CoreCompileInputs.cache
+C:\Users\kosty\OneDrive\Рабочий стол\Fourier\obj\Debug\Fourier.exe
+C:\Users\kosty\OneDrive\Рабочий стол\Fourier\obj\Debug\Fourier.pdb
+C:\Users\kosty\OneDrive\Рабочий стол\Учёба\3 Курс\модуль 3.4 (Май)\Обработка сигналов\Laba_2\Program\Fourier\bin\Debug\Fourier.exe.config
+C:\Users\kosty\OneDrive\Рабочий стол\Учёба\3 Курс\модуль 3.4 (Май)\Обработка сигналов\Laba_2\Program\Fourier\bin\Debug\Fourier.exe
+C:\Users\kosty\OneDrive\Рабочий стол\Учёба\3 Курс\модуль 3.4 (Май)\Обработка сигналов\Laba_2\Program\Fourier\bin\Debug\Fourier.pdb
+C:\Users\kosty\OneDrive\Рабочий стол\Учёба\3 Курс\модуль 3.4 (Май)\Обработка сигналов\Laba_2\Program\Fourier\obj\Debug\Fourier.csproj.AssemblyReference.cache
+C:\Users\kosty\OneDrive\Рабочий стол\Учёба\3 Курс\модуль 3.4 (Май)\Обработка сигналов\Laba_2\Program\Fourier\obj\Debug\Fourier.Form1.resources
+C:\Users\kosty\OneDrive\Рабочий стол\Учёба\3 Курс\модуль 3.4 (Май)\Обработка сигналов\Laba_2\Program\Fourier\obj\Debug\Fourier.Properties.Resources.resources
+C:\Users\kosty\OneDrive\Рабочий стол\Учёба\3 Курс\модуль 3.4 (Май)\Обработка сигналов\Laba_2\Program\Fourier\obj\Debug\Fourier.csproj.GenerateResource.cache
+C:\Users\kosty\OneDrive\Рабочий стол\Учёба\3 Курс\модуль 3.4 (Май)\Обработка сигналов\Laba_2\Program\Fourier\obj\Debug\Fourier.csproj.CoreCompileInputs.cache
+C:\Users\kosty\OneDrive\Рабочий стол\Учёба\3 Курс\модуль 3.4 (Май)\Обработка сигналов\Laba_2\Program\Fourier\obj\Debug\Fourier.exe
+C:\Users\kosty\OneDrive\Рабочий стол\Учёба\3 Курс\модуль 3.4 (Май)\Обработка сигналов\Laba_2\Program\Fourier\obj\Debug\Fourier.pdb

@@ -1,0 +1,11 @@
+{
+  "Version": 1,
+  "ProjectMap": {
+    "a82fd815-eb73-42b9-ac53-ff6792c5de12": {
+      "ProjectGuid": "a82fd815-eb73-42b9-ac53-ff6792c5de12",
+      "DisplayName": "Fourier",
+      "ColorIndex": 0
+    }
+  },
+  "NextColorIndex": 1
+}
