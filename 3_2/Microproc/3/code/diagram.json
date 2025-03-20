@@ -1,0 +1,129 @@
+{
+  "version": 1,
+  "author": "Gogolev Victor",
+  "editor": "wokwi",
+  "parts": [
+    { "type": "wokwi-breadboard", "id": "bb1", "top": -185.4, "left": -189.2, "attrs": {} },
+    { "type": "wokwi-arduino-uno", "id": "uno", "top": 163.8, "left": -96.6, "attrs": {} },
+    {
+      "type": "wokwi-pushbutton",
+      "id": "btn1",
+      "top": -105.7,
+      "left": -178.9,
+      "rotate": 90,
+      "attrs": { "color": "yellow", "xray": "1" }
+    },
+    {
+      "type": "wokwi-7segment",
+      "id": "sevseg1",
+      "top": -119.82,
+      "left": 254.68,
+      "attrs": { "color": "#00ff00", "common": "cathode", "digits": "1", "colon": "" }
+    },
+    {
+      "type": "wokwi-resistor",
+      "id": "r1",
+      "top": -92.6,
+      "left": -96.85,
+      "rotate": 270,
+      "attrs": { "value": "220" }
+    },
+    {
+      "type": "wokwi-resistor",
+      "id": "r2",
+      "top": -92.6,
+      "left": -77.65,
+      "rotate": 270,
+      "attrs": { "value": "220" }
+    },
+    {
+      "type": "wokwi-resistor",
+      "id": "r3",
+      "top": -92.6,
+      "left": -39.25,
+      "rotate": 270,
+      "attrs": { "value": "220" }
+    },
+    {
+      "type": "wokwi-resistor",
+      "id": "r4",
+      "top": -92.6,
+      "left": -58.45,
+      "rotate": 270,
+      "attrs": { "value": "220" }
+    },
+    {
+      "type": "wokwi-resistor",
+      "id": "r5",
+      "top": -92.6,
+      "left": -20.05,
+      "rotate": 270,
+      "attrs": { "value": "220" }
+    },
+    {
+      "type": "wokwi-resistor",
+      "id": "r6",
+      "top": -92.6,
+      "left": -0.85,
+      "rotate": 270,
+      "attrs": { "value": "220" }
+    },
+    {
+      "type": "wokwi-resistor",
+      "id": "r7",
+      "top": -92.6,
+      "left": 18.35,
+      "rotate": 270,
+      "attrs": { "value": "220" }
+    }
+  ],
+  "connections": [
+    [ "uno:9", "btn1:1.r", "green", [ "v-134.4", "h-162.8" ] ],
+    [ "uno:GND.2", "btn1:2.r", "black", [ "v-316.9", "h-236.1" ] ],
+    [ "uno:2", "r1:1", "green", [ "v-153.6", "h-143.6" ] ],
+    [ "uno:3", "r2:1", "green", [ "v-153.6", "h-150" ] ],
+    [ "uno:4", "r3:1", "green", [ "v-153.6", "h-130.5" ] ],
+    [ "uno:5", "r4:1", "green", [ "v-153.6", "h-140.3" ] ],
+    [ "uno:6", "r5:1", "green", [ "v-153.6", "h-111.2" ] ],
+    [ "uno:7", "r6:1", "green", [ "v-153.6", "h-82.6" ] ],
+    [ "uno:8", "r7:1", "green", [ "v-153.6", "h-91.9" ] ],
+    [ "uno:GND.3", "sevseg1:COM.1", "black", [ "v-374.5", "h196" ] ],
+    [ "uno:GND.1", "sevseg1:COM.2", "black", [ "v-355.2", "h259.5" ] ],
+    [ "r1:2", "sevseg1:A", "green", [ "v-18", "h355.2" ] ],
+    [ "r1:1", "bb1:11b.g", "", [ "$bb" ] ],
+    [ "r1:2", "bb1:11t.c", "", [ "$bb" ] ],
+    [ "r2:1", "bb1:13b.g", "", [ "$bb" ] ],
+    [ "r2:2", "bb1:13t.c", "", [ "$bb" ] ],
+    [ "r3:1", "bb1:17b.g", "", [ "$bb" ] ],
+    [ "r3:2", "bb1:17t.c", "", [ "$bb" ] ],
+    [ "r4:1", "bb1:15b.g", "", [ "$bb" ] ],
+    [ "r4:2", "bb1:15t.c", "", [ "$bb" ] ],
+    [ "r5:1", "bb1:19b.g", "", [ "$bb" ] ],
+    [ "r5:2", "bb1:19t.c", "", [ "$bb" ] ],
+    [ "r6:1", "bb1:21b.g", "", [ "$bb" ] ],
+    [ "r6:2", "bb1:21t.c", "", [ "$bb" ] ],
+    [ "r7:1", "bb1:23b.g", "", [ "$bb" ] ],
+    [ "r7:2", "bb1:23t.c", "", [ "$bb" ] ],
+    [ "sevseg1:COM.1", "bb1:47b.h", "", [ "$bb" ] ],
+    [ "sevseg1:COM.2", "bb1:47t.c", "", [ "$bb" ] ],
+    [ "sevseg1:A", "bb1:48t.c", "", [ "$bb" ] ],
+    [ "sevseg1:B", "bb1:49t.c", "", [ "$bb" ] ],
+    [ "sevseg1:C", "bb1:48b.h", "", [ "$bb" ] ],
+    [ "sevseg1:D", "bb1:46b.h", "", [ "$bb" ] ],
+    [ "sevseg1:E", "bb1:45b.h", "", [ "$bb" ] ],
+    [ "sevseg1:F", "bb1:46t.c", "", [ "$bb" ] ],
+    [ "sevseg1:G", "bb1:45t.c", "", [ "$bb" ] ],
+    [ "sevseg1:DP", "bb1:49b.h", "", [ "$bb" ] ],
+    [ "r3:2", "sevseg1:C", "green", [ "h0", "v97.2", "h297.6" ] ],
+    [ "r4:2", "sevseg1:D", "green", [ "h0", "v97.2", "h297.6" ] ],
+    [ "r5:2", "sevseg1:E", "green", [ "h0", "v97.2", "h249.6" ] ],
+    [ "r2:2", "sevseg1:B", "green", [ "h-0.59", "v-18.03", "h348.16" ] ],
+    [ "r6:2", "sevseg1:F", "green", [ "h-0.34", "v-19.79", "h239.36", "v18.82" ] ],
+    [ "r7:2", "sevseg1:G", "green", [ "h-0.72", "v-19.2", "h209.37" ] ],
+    [ "btn1:1.l", "bb1:4t.c", "", [ "$bb" ] ],
+    [ "btn1:2.l", "bb1:2t.c", "", [ "$bb" ] ],
+    [ "btn1:1.r", "bb1:4b.h", "", [ "$bb" ] ],
+    [ "btn1:2.r", "bb1:2b.h", "", [ "$bb" ] ]
+  ],
+  "dependencies": {}
+}
