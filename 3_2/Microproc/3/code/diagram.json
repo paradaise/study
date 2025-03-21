@@ -18,7 +18,7 @@
       "id": "sevseg1",
       "top": -119.82,
       "left": 254.68,
-      "attrs": { "color": "#00ff00", "common": "cathode", "digits": "1", "colon": "" }
+      "attrs": { "color": "yellow", "common": "cathode", "digits": "1", "colon": "" }
     },
     {
       "type": "wokwi-resistor",

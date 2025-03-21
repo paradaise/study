@@ -39,7 +39,7 @@ void setup() {
 
 void loop() {
   if (digitalRead(buttonPin) == LOW) {  
-    delay(10); 
+    delay(200); 
     number = (number + 1) % 10;
     displayNumber(number);
     while (digitalRead(buttonPin) == LOW); 
