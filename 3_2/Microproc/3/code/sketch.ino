@@ -5,6 +5,7 @@ const int segD = 5;
 const int segE = 6;
 const int segF = 7;
 const int segG = 8;
+
 const int buttonPin = 9;
 
 int number = 0;  
@@ -39,7 +40,7 @@ void setup() {
 
 void loop() {
   if (digitalRead(buttonPin) == LOW) {  
-    delay(200); 
+    delay(100); 
     number = (number + 1) % 10;
     displayNumber(number);
     while (digitalRead(buttonPin) == LOW); 
