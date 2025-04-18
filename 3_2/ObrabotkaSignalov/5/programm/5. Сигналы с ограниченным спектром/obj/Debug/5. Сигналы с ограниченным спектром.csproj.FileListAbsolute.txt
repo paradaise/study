@@ -36,3 +36,5 @@ C:\Users\kosty\OneDrive\Рабочий стол\Laby\5. Сигналы с огр
 C:\Users\kosty\OneDrive\Рабочий стол\Laby\5. Сигналы с ограниченным спектром\5. Сигналы с ограниченным спектром\obj\Debug\5. Сигналы с ограниченным спектром.csproj.CoreCompileInputs.cache
 C:\Users\kosty\OneDrive\Рабочий стол\Laby\5. Сигналы с ограниченным спектром\5. Сигналы с ограниченным спектром\obj\Debug\_5.Сигналы_с_ограниченным_спектром.exe
 C:\Users\kosty\OneDrive\Рабочий стол\Laby\5. Сигналы с ограниченным спектром\5. Сигналы с ограниченным спектром\obj\Debug\_5.Сигналы_с_ограниченным_спектром.pdb
+C:\Users\vetek\Desktop\study(git_repo)\3_2\ObrabotkaSignalov\5\programm\5. Сигналы с ограниченным спектром\obj\Debug\_5.Сигналы_с_ограниченным_спектром.exe
+C:\Users\vetek\Desktop\study(git_repo)\3_2\ObrabotkaSignalov\5\programm\5. Сигналы с ограниченным спектром\obj\Debug\_5.Сигналы_с_ограниченным_спектром.pdb

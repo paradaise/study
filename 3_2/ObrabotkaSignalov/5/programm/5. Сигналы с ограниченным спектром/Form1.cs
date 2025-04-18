@@ -19,39 +19,38 @@ namespace _5.Сигналы_с_ограниченным_спектром
 
         private static double Ec()
         {
-            return 2.79 * 6 * 6 * 6/3;
+            return 34; // Изменили на ваше значение E_max=34
         }
 
-        private static double A(double w)
-        {
-            return -10 * 0.000006 / (6 * w) * Math.Sin(0.000006 * w) + 10 / (6 *w *w) * Math.Cos(0.000006 * w);
-        }
-
-        private static double B(double w)
-        {
-            return 10 * 0.000006 / (6 * w) * Math.Cos(0.000006 * w) - 10 / (6 * w * w) * Math.Sin(0.000006 * w);
-        }
-
-        private static double Polinom(double S, double t, int k, int wv)
-        {
-            return S*Math.Sin(wv * (t - k * Math.PI / wv)) / (wv * (t - k * Math.PI / wv));
-        }
-               
         private void button1_Click(object sender, EventArgs e)
         {
             chart3.ChartAreas[0].AxisX.Minimum = 0;
-            chart3.ChartAreas[0].AxisX.Maximum = 0.00000601;
-            chart3.ChartAreas[0].AxisX.Interval = 0.000001;
+            chart3.ChartAreas[0].AxisX.Maximum = 700 * 1e-6; // 700 мкс в секундах
+            chart3.ChartAreas[0].AxisX.Interval = 100 * 1e-6; // Интервал 100 мкс
 
+            // Очищаем все серии
+            foreach (var series in chart3.Series)
+            {
+                series.Points.Clear();
+            }
+
+            // Генерируем прямоугольный импульс (ваш вариант)
+            for (double t = 0; t <= 700 * 1e-6; t += 1 * 1e-6)
+            {
+                double value = (t >= 0 && t <= 700 * 1e-6) ? -34 : 0; // Амплитуда -34 В
+                chart3.Series[0].Points.AddXY(t, value);
+            }
+
+            // Остальной код оставляем без изменений
             int wvn = 3141592;
-            double[] SV = new double [100];
+            double[] SV = new double[100];
             double Ew = 0;
             double wv = 0;
-            int line=2;
+            int line = 2;
             for (double x = 0; x <= 0.000006; x += 0.000001)
             {
-                chart3.Series[line].Points.AddXY(x,0);
-                chart3.Series[line].Points.AddXY(x, x*1000000*-1.6667);
+                chart3.Series[line].Points.AddXY(x, 0);
+                chart3.Series[line].Points.AddXY(x, x * 1000000 * -1.6667);
                 line++;
             }
 
@@ -65,7 +64,7 @@ namespace _5.Сигналы_с_ограниченным_спектром
                 wv = w;
             }
 
-           A: 
+        A:
             int T = 7;
             double[] S = new double[T];
             double[] Sk = new double[T];
@@ -86,8 +85,8 @@ namespace _5.Сигналы_с_ограниченным_спектром
             S[5] = -1.667 * 5;
             S[6] = -1.667 * 6;
             #endregion
-                   
-            
+
+
             int count = 0;
             for (int k = 0; k < 7; k++)
             {
