@@ -1,105 +1,76 @@
+# Импортируем необходимые библиотеки
 import numpy as np
 import matplotlib.pyplot as plt
-import sys
-
-sys.stdout.reconfigure(encoding="utf-8")
-
-
-# Параметры первого сигнала (прямоугольный импульс)
-max1 = 4
-duration1 = 20
-
-# Параметры второго сигнала (треугольный импульс)
-max2 = 4
-duration2 = 20
-
-# Временная шкала
-time = np.linspace(-duration2, duration2, num=1000)
 
 
 # Функция для прямоугольного импульса
-def rect_pulse(x, amplitude, duration):
-    if 0 <= x <= duration:
-        return amplitude
-    else:
-        return 0
+def rect_pulse(t, amplitude, duration):
+    return np.where((t >= 0) & (t <= duration), amplitude, 0)
 
 
-# Функция для треугольного импульса
-def triangle_pulse(x, amplitude, duration):
-    if 0 <= x <= duration:
-        return amplitude * (1 - x / duration)
-    else:
-        return 0
+# Заданные параметры
+E_max = 34  # В
+t_duration = 700e-6  # 700 мкс
+omega = 2 * np.pi / t_duration
+f_v = omega / (2 * np.pi)
 
+# Временная шкала и генерация сигнала
+t = np.linspace(0, t_duration * 2, 1000)  # Временные отсчёты
+signal = rect_pulse(t, E_max, t_duration)
 
-# Расчет значений для временной шкалы
-signal1 = [rect_pulse(x, max1, duration1) for x in time]
-signal2 = [triangle_pulse(x, max2, duration2) for x in time]
+# Расчет эффективной ширины спектра
+spectrum = np.abs(np.fft.fft(signal)) ** 2
+frequencies = np.fft.fftfreq(len(t), d=(t[1] - t[0]))
+total_energy = np.sum(spectrum)
+effective_energy = total_energy * 0.99  # 99% энергии
+cumulative_energy = np.cumsum(spectrum)
+effective_width_index = np.where(cumulative_energy >= effective_energy)[0][0]
+effective_width = np.abs(frequencies[effective_width_index])
 
-# Преобразование в массивы NumPy
-s1 = np.array(signal1)
-s2 = np.array(signal2)
+# Дискретизация сигнала
+sampling_interval = 1 / (2 * f_v)
+sample_indices = np.arange(0, len(t), int(sampling_interval / (t[1] - t[0])))
+sampling_points = t[sample_indices]
+sampled_signal = rect_pulse(sampling_points, E_max, t_duration)
 
+# Восстановление сигнала через ряд Котельникова
+reconstructed_signal = np.zeros_like(t)
+for k, sample in enumerate(sampled_signal):
+    reconstructed_signal += sample * np.sinc(
+        (t - k * sampling_interval) / sampling_interval
+    )
 
-# Построение графиков для отдельного отображения
-plt.figure()
-plt.plot(time, s1, label="Прямоугольный импульс")
-plt.title("График прямоугольного импульса")
-plt.xlabel("Время")
-plt.ylabel("Амплитуда")
+# Графики
+plt.figure(figsize=(12, 8))
+
+# Оригинальный сигнал
+plt.subplot(3, 1, 1)
+plt.plot(t, signal, label="Оригинальный сигнал")
+plt.title("Оригинальный сигнал")
 plt.legend()
-plt.grid(True)
-plt.show()
 
-plt.figure()
-plt.plot(time, s2, label="Треугольный импульс")
-plt.title("График треугольного импульса")
-plt.xlabel("Время")
-plt.ylabel("Амплитуда")
+# Дискретизированный сигнал с линией
+plt.subplot(3, 1, 2)
+plt.plot(
+    sampling_points,
+    sampled_signal,
+    linestyle="--",
+    marker="o",
+    label="Дискретизированный сигнал",
+)
+plt.title("Дискретизированный сигнал")
 plt.legend()
-plt.grid(True)
-plt.show()
 
-# Построение графика с наложением двух функций
-plt.figure()
-plt.plot(time, s1, label="Прямоугольный импульс")
-plt.plot(time, s2, label="Треугольный импульс")
-plt.title("Наложение функций прямоугольного и треугольного импульсов")
-plt.xlabel("Время")
-plt.ylabel("Амплитуда")
+# Восстановленный сигнал
+plt.subplot(3, 1, 3)
+plt.plot(t, reconstructed_signal, label="Восстановленный сигнал", linestyle="--")
+plt.title("Восстановленный сигнал")
 plt.legend()
-plt.grid(True)
-plt.show()
 
-# Расчет корреляции
-corr_full = np.correlate(s1, s2, mode="full")
-corr_same = np.correlate(s1, s2, mode="same")
-
-# Поиск максимального значения корреляции
-max_corr = np.max(corr_full)
-
-# Определение интервала корреляции
-corr_interval = None
-for i, value in enumerate(corr_full):
-    if value == max_corr:
-        corr_interval = time[i % len(time)]  # Расчет соответствующего времени
-        break
-
-# График полной корреляции
-plt.figure()
-plt.plot(corr_full)
-plt.title("График полной корреляции")
-plt.grid(True)
-plt.show()
-
-# График взаимной корреляции
-plt.figure()
-plt.plot(corr_same)
-plt.title("График взаимной корреляции")
-plt.grid(True)
+plt.tight_layout()
 plt.show()
 
 # Вывод результатов
-print("Максимальное значение корреляционной функции:", max_corr)
-print("Интервал корреляции:", corr_interval)
+print(f"Эффективная ширина спектра: {effective_width:.3f} Гц")
+print(f"Количество отсчётных значений: {len(sampled_signal)}")
+print("Сигнал успешно дискретизирован и восстановлен.")

@@ -1,0 +1,540 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gogolev VG 4 Laba</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            background-color: #f5f5f5;
+        }
+        .chart-container {
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            padding: 20px;
+            margin-bottom: 30px;
+        }
+        h1, h2 {
+            color: #333;
+        }
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(500px, 1fr));
+            gap: 20px;
+        }
+        .metrics-table {
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            padding: 20px;
+            margin-bottom: 30px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        th, td {
+            padding: 8px 12px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+    </style>
+</head>
+<body>
+    <h1>Анализ симуляции GPSS World - Laba_4.1.1</h1>
+    <p>Время симуляции: 3600 единиц времени</p>
+    
+    <div class="metrics-table">
+        <h2>Ключевые метрики системы</h2>
+        <table>
+            <tr>
+                <th>Метрика</th>
+                <th>Значение</th>
+            </tr>
+            <tr>
+                <td>Общее количество транзактов</td>
+                <td>39,556</td>
+            </tr>
+            <tr>
+                <td>Максимальная длина очереди Q_4</td>
+                <td>35</td>
+            </tr>
+            <tr>
+                <td>Среднее время в системе (TAB1)</td>
+                <td>3.380 ± 1.245</td>
+            </tr>
+            <tr>
+                <td>Общее использование SSD1</td>
+                <td>87.9%</td>
+            </tr>
+            <tr>
+                <td>Общее использование SSD2</td>
+                <td>8.4%</td>
+            </tr>
+        </table>
+    </div>
+    
+    <div class="grid">
+        <div class="chart-container">
+            <h2>Загрузка процессоров</h2>
+            <canvas id="cpuChart"></canvas>
+        </div>
+        
+        <div class="chart-container">
+            <h2>Время ожидания в очередях</h2>
+            <canvas id="queueChart"></canvas>
+        </div>
+        
+        <div class="chart-container">
+            <h2>Использование SSD</h2>
+            <canvas id="ssdChart"></canvas>
+        </div>
+        
+        <div class="chart-container">
+            <h2>Распределение времени выполнения (TAB1)</h2>
+            <canvas id="tab1Chart"></canvas>
+        </div>
+        
+        <div class="chart-container">
+            <h2>Среднее время по типам задач</h2>
+            <canvas id="tasksChart"></canvas>
+        </div>
+        
+        <div class="chart-container">
+            <h2>Распределение времени (TAB2)</h2>
+            <canvas id="tab2Chart"></canvas>
+        </div>
+        
+        <div class="chart-container">
+            <h2>Распределение времени (TAB3)</h2>
+            <canvas id="tab3Chart"></canvas>
+        </div>
+        
+        <div class="chart-container">
+            <h2>Распределение времени (TAB4)</h2>
+            <canvas id="tab4Chart"></canvas>
+        </div>
+        
+        <div class="chart-container">
+            <h2>Распределение времени (TAB5)</h2>
+            <canvas id="tab5Chart"></canvas>
+        </div>
+    </div>
+
+    <script>
+        // 1. Загрузка процессоров
+        const cpuCtx = document.getElementById('cpuChart').getContext('2d');
+        new Chart(cpuCtx, {
+            type: 'bar',
+            data: {
+                labels: ['CPU1', 'CPU2', 'CPU3'],
+                datasets: [{
+                    label: 'Загрузка процессоров',
+                    data: [0.564, 0.568, 0.010],
+                    backgroundColor: [
+                        'rgba(255, 99, 132, 0.7)',
+                        'rgba(255, 99, 132, 0.7)',
+                        'rgba(54, 162, 235, 0.7)'
+                    ],
+                    borderColor: [
+                        'rgba(255, 99, 132, 1)',
+                        'rgba(255, 99, 132, 1)',
+                        'rgba(54, 162, 235, 1)'
+                    ],
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                responsive: true,
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        max: 1.0,
+                        ticks: {
+                            callback: function(value) {
+                                return (value * 100) + '%';
+                            }
+                        }
+                    }
+                },
+                plugins: {
+                    tooltip: {
+                        callbacks: {
+                            label: function(context) {
+                                return (context.raw * 100).toFixed(1) + '%';
+                            }
+                        }
+                    }
+                }
+            }
+        });
+
+        // 2. Время в очередях
+        const queueCtx = document.getElementById('queueChart').getContext('2d');
+        new Chart(queueCtx, {
+            type: 'bar',
+            data: {
+                labels: ['Q_1', 'Q_2', 'Q_3', 'Q_4', 'Q_5'],
+                datasets: [{
+                    label: 'Среднее время ожидания',
+                    data: [1.142, 1.132, 0.747, 2.773, 2.782],
+                    backgroundColor: 'rgba(75, 192, 192, 0.7)',
+                    borderColor: 'rgba(75, 192, 192, 1)',
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                responsive: true,
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        title: {
+                            display: true,
+                            text: 'Время (ед. времени)'
+                        }
+                    },
+                    x: {
+                        title: {
+                            display: true,
+                            text: 'Очередь'
+                        }
+                    }
+                },
+                plugins: {
+                    tooltip: {
+                        callbacks: {
+                            label: function(context) {
+                                return context.raw.toFixed(3) + ' ед.';
+                            }
+                        }
+                    }
+                }
+            }
+        });
+
+        // 3. Использование SSD
+        const ssdCtx = document.getElementById('ssdChart').getContext('2d');
+        new Chart(ssdCtx, {
+            type: 'bar',
+            data: {
+                labels: ['SSD1', 'SSD2'],
+                datasets: [
+                    {
+                        label: 'Утилизация',
+                        data: [0.879, 0.084],
+                        backgroundColor: 'rgba(153, 102, 255, 0.7)',
+                        borderColor: 'rgba(153, 102, 255, 1)',
+                        borderWidth: 1,
+                        yAxisID: 'y'
+                    },
+                    {
+                        label: 'Среднее использование',
+                        data: [2.638, 0.253],
+                        backgroundColor: 'rgba(255, 159, 64, 0.7)',
+                        borderColor: 'rgba(255, 159, 64, 1)',
+                        borderWidth: 1,
+                        type: 'line',
+                        yAxisID: 'y1'
+                    }
+                ]
+            },
+            options: {
+                responsive: true,
+                scales: {
+                    y: {
+                        type: 'linear',
+                        display: true,
+                        position: 'left',
+                        title: {
+                            display: true,
+                            text: 'Утилизация'
+                        },
+                        ticks: {
+                            callback: function(value) {
+                                return (value * 100) + '%';
+                            }
+                        }
+                    },
+                    y1: {
+                        type: 'linear',
+                        display: true,
+                        position: 'right',
+                        title: {
+                            display: true,
+                            text: 'Среднее использование'
+                        },
+                        grid: {
+                            drawOnChartArea: false
+                        }
+                    }
+                },
+                plugins: {
+                    tooltip: {
+                        callbacks: {
+                            label: function(context) {
+                                let label = context.dataset.label || '';
+                                if (label.includes('Утилизация')) {
+                                    return label + ': ' + (context.raw * 100).toFixed(1) + '%';
+                                }
+                                return label + ': ' + context.raw.toFixed(3) + ' ед.';
+                            }
+                        }
+                    }
+                }
+            }
+        });
+
+        // 4. Распределение времени выполнения (TAB1)
+        const tab1Ctx = document.getElementById('tab1Chart').getContext('2d');
+        new Chart(tab1Ctx, {
+            type: 'bar',
+            data: {
+                labels: ['0.4-0.6', '0.6-0.8', '0.8-1.0', '1.0-1.2', '1.2-1.4', '1.4-1.6', '1.6-1.8', '1.8-2.0', '2.0-2.2', '2.2-2.4', '2.4-2.6', '2.6-2.8', '2.8-3.0', '3.0-3.2', '3.2-3.4', '3.4-3.6', '3.6-3.8', '3.8-4.0', '4.0-4.2', '4.2-4.4', '4.4-4.6', '4.6-4.8', '4.8-5.0', '5.0-5.2', '5.2-5.4', '5.4-5.6', '5.6-5.8', '5.8-6.0', '6.0-6.2', '6.2-6.4', '6.4-6.6', '6.6-6.8', '6.8-7.0', '7.0-7.2', '7.2-7.4', '7.4-7.6', '7.6+'],
+                datasets: [{
+                    label: 'Количество задач',
+                    data: [68, 8, 13, 29, 75, 124, 143, 174, 203, 225, 237, 258, 267, 306, 413, 556, 635, 500, 292, 152, 133, 119, 123, 103, 78, 40, 25, 8, 2, 2, 1, 0, 2, 0, 2, 5, 70],
+                    backgroundColor: 'rgba(255, 206, 86, 0.7)',
+                    borderColor: 'rgba(255, 206, 86, 1)',
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                responsive: true,
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        title: {
+                            display: true,
+                            text: 'Количество задач'
+                        }
+                    },
+                    x: {
+                        title: {
+                            display: true,
+                            text: 'Диапазон времени выполнения'
+                        },
+                        ticks: {
+                            autoSkip: true,
+                            maxTicksLimit: 10
+                        }
+                    }
+                }
+            }
+        });
+
+        // 5. Среднее время по типам задач
+        const tasksCtx = document.getElementById('tasksChart').getContext('2d');
+        new Chart(tasksCtx, {
+            type: 'bar',
+            data: {
+                labels: ['CPU1', 'CPU2', 'SSD1', 'SSD2', 'Q_4'],
+                datasets: [{
+                    label: 'Среднее время использования',
+                    data: [0.111, 0.111, 0.879, 0.084, 2.773],
+                    backgroundColor: [
+                        'rgba(255, 99, 132, 0.7)',
+                        'rgba(54, 162, 235, 0.7)',
+                        'rgba(153, 102, 255, 0.7)',
+                        'rgba(255, 159, 64, 0.7)',
+                        'rgba(75, 192, 192, 0.7)'
+                    ],
+                    borderColor: [
+                        'rgba(255, 99, 132, 1)',
+                        'rgba(54, 162, 235, 1)',
+                        'rgba(153, 102, 255, 1)',
+                        'rgba(255, 159, 64, 1)',
+                        'rgba(75, 192, 192, 1)'
+                    ],
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                responsive: true,
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        title: {
+                            display: true,
+                            text: 'Среднее время (ед. времени)'
+                        }
+                    },
+                    x: {
+                        title: {
+                            display: true,
+                            text: 'Ресурс'
+                        }
+                    }
+                },
+                plugins: {
+                    tooltip: {
+                        callbacks: {
+                            label: function(context) {
+                                return context.raw.toFixed(3) + ' ед.';
+                            }
+                        }
+                    }
+                }
+            }
+        });
+
+        // 6. Распределение времени выполнения (TAB2)
+        const tab2Ctx = document.getElementById('tab2Chart').getContext('2d');
+        new Chart(tab2Ctx, {
+            type: 'bar',
+            data: {
+                labels: ['0.2-0.4', '0.4-0.6', '0.6-0.8', '0.8-1.0', '1.0-1.2', '1.2-1.4', '1.4-1.6', '1.6-1.8', '1.8-2.0', '2.0-2.2', '2.2-2.4', '2.4-2.6', '2.6-2.8', '2.8-3.0', '3.0-3.2', '3.2-3.4', '3.4-3.6', '3.6-3.8', '3.8-4.0', '4.0-4.2', '4.2-4.4', '4.4-4.6', '4.6-4.8', '4.8-5.0', '5.0-5.2', '5.2-5.4', '5.4-5.6', '5.6-5.8', '5.8-6.0', '6.0-6.2', '6.2-6.4', '6.4-6.6', '6.6-6.8', '6.8-7.0', '7.0-7.2', '7.2-7.4', '7.4-7.6', '7.6+'],
+                datasets: [{
+                    label: 'Количество задач',
+                    data: [72, 115, 30, 61, 131, 262, 352, 362, 459, 547, 583, 585, 708, 694, 920, 1245, 1543, 1524, 1099, 613, 404, 306, 333, 254, 250, 171, 115, 46, 8, 1, 2, 2, 4, 3, 10, 9, 10, 223],
+                    backgroundColor: 'rgba(54, 162, 235, 0.7)',
+                    borderColor: 'rgba(54, 162, 235, 1)',
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                responsive: true,
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        title: {
+                            display: true,
+                            text: 'Количество задач'
+                        }
+                    },
+                    x: {
+                        title: {
+                            display: true,
+                            text: 'Диапазон времени выполнения'
+                        },
+                        ticks: {
+                            autoSkip: true,
+                            maxTicksLimit: 10
+                        }
+                    }
+                }
+            }
+        });
+
+        // 7. Распределение времени выполнения (TAB3)
+        const tab3Ctx = document.getElementById('tab3Chart').getContext('2d');
+        new Chart(tab3Ctx, {
+            type: 'bar',
+            data: {
+                labels: ['0.4-0.6', '0.6-0.8', '0.8-1.0', '1.0-1.2', '1.2-1.4', '1.4-1.6', '1.6-1.8', '1.8-2.0', '2.0-2.2', '2.2-2.4', '2.4-2.6', '2.6-2.8', '2.8-3.0', '3.0-3.2', '3.2-3.4', '3.4-3.6', '3.6-3.8', '3.8-4.0', '4.0-4.2', '4.2-4.4', '4.4-4.6', '4.6-4.8', '4.8-5.0', '5.0-5.2', '5.2-5.4', '5.4-5.6', '5.6-5.8', '5.8-6.0'],
+                datasets: [{
+                    label: 'Количество задач',
+                    data: [1510, 28, 43, 26, 30, 23, 25, 35, 25, 17, 27, 30, 21, 23, 26, 27, 32, 21, 23, 29, 20, 24, 29, 30, 11, 9, 9, 3],
+                    backgroundColor: 'rgba(75, 192, 192, 0.7)',
+                    borderColor: 'rgba(75, 192, 192, 1)',
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                responsive: true,
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        title: {
+                            display: true,
+                            text: 'Количество задач'
+                        }
+                    },
+                    x: {
+                        title: {
+                            display: true,
+                            text: 'Диапазон времени выполнения'
+                        },
+                        ticks: {
+                            autoSkip: true,
+                            maxTicksLimit: 10
+                        }
+                    }
+                }
+            }
+        });
+
+        // 8. Распределение времени выполнения (TAB4)
+        const tab4Ctx = document.getElementById('tab4Chart').getContext('2d');
+        new Chart(tab4Ctx, {
+            type: 'bar',
+            data: {
+                labels: ['0.2-0.4', '0.4-0.6', '0.6-0.8', '0.8-1.0', '1.0-1.2', '1.2-1.4', '1.4-1.6', '1.6-1.8', '1.8-2.0', '2.0-2.2', '2.2-2.4', '2.4-2.6', '2.6-2.8', '2.8-3.0', '3.0-3.2', '3.2-3.4', '3.4-3.6', '3.6-3.8', '3.8-4.0', '4.0-4.2', '4.2-4.4', '4.4-4.6', '4.6-4.8', '4.8-5.0', '5.0-5.2', '5.2-5.4', '5.4-5.6', '5.6-5.8', '5.8-6.0', '6.0-6.2', '6.2-6.4', '6.4-6.6', '6.6-6.8', '6.8-7.0', '7.0-7.2', '7.2-7.4', '7.4-7.6', '7.6+'],
+                datasets: [{
+                    label: 'Количество задач',
+                    data: [19, 30, 12, 3, 0, 0, 0, 3, 18, 33, 46, 70, 105, 156, 307, 645, 1028, 1135, 987, 691, 390, 311, 298, 336, 334, 280, 298, 302, 287, 302, 339, 338, 288, 291, 307, 330, 315, 3408],
+                    backgroundColor: 'rgba(153, 102, 255, 0.7)',
+                    borderColor: 'rgba(153, 102, 255, 1)',
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                responsive: true,
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        title: {
+                            display: true,
+                            text: 'Количество задач'
+                        }
+                    },
+                    x: {
+                        title: {
+                            display: true,
+                            text: 'Диапазон времени выполнения'
+                        },
+                        ticks: {
+                            autoSkip: true,
+                            maxTicksLimit: 10
+                        }
+                    }
+                }
+            }
+        });
+
+        // 9. Распределение времени выполнения (TAB5)
+        const tab5Ctx = document.getElementById('tab5Chart').getContext('2d');
+        new Chart(tab5Ctx, {
+            type: 'bar',
+            data: {
+                labels: ['0.2-0.4', '0.4-0.6', '0.6-0.8', '0.8-1.0', '1.0-1.2', '1.2-1.4', '1.4-1.6', '1.6-1.8', '1.8-2.0', '2.0-2.2', '2.2-2.4', '2.4-2.6', '2.6-2.8', '2.8-3.0', '3.0-3.2', '3.2-3.4', '3.4-3.6', '3.6-3.8', '3.8-4.0', '4.0-4.2', '4.2-4.4', '4.4-4.6', '4.6-4.8', '4.8-5.0', '5.0-5.2', '5.2-5.4', '5.4-5.6', '5.6-5.8', '5.8-6.0', '6.0-6.2', '6.2-6.4', '6.4-6.6', '6.6-6.8', '6.8-7.0', '7.0-7.2', '7.2-7.4', '7.4-7.6', '7.6+'],
+                datasets: [{
+                    label: 'Количество задач',
+                    data: [14, 1, 0, 0, 0, 0, 0, 6, 1, 13, 13, 24, 25, 47, 105, 191, 239, 245, 198, 134, 92, 76, 55, 77, 76, 67, 68, 50, 94, 78, 72, 69, 76, 71, 83, 70, 71, 731],
+                    backgroundColor: 'rgba(255, 159, 64, 0.7)',
+                    borderColor: 'rgba(255, 159, 64, 1)',
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                responsive: true,
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        title: {
+                            display: true,
+                            text: 'Количество задач'
+                        }
+                    },
+                    x: {
+                        title: {
+                            display: true,
+                            text: 'Диапазон времени выполнения'
+                        },
+                        ticks: {
+                            autoSkip: true,
+                            maxTicksLimit: 10
+                        }
+                    }
+                }
+            }
+        });
+    </script>
+</body>
+</html>
