@@ -2,50 +2,72 @@ version: '3.8'
 
 services:
   mariadb:
-    image: mariadb:10.6
-    container_name: mariadb
+    image: mariadb:latest
+    container_name: lab_mariadb
     environment:
-      MYSQL_ROOT_PASSWORD: rootpass
+      MYSQL_ROOT_PASSWORD: rootpassword
+      MYSQL_DATABASE: testdb
+      MYSQL_USER: testuser
+      MYSQL_PASSWORD: testpassword
     volumes:
-      - mariadb_data:/home/db/mysql
-      - ./mariadb/custom.cnf:/etc/mysql/mariadb.conf.d/99-custom.cnf
-      - ./mariadb/init.sql:/docker-entrypoint-initdb.d/init.sql
+      - ./home/db/mysql:/var/lib/mysql  
+      - ./config/mysql:/etc/mysql/conf.d 
+    ports:
+      - "127.0.0.1:3306:3306" 
     networks:
-      - backend
+      - db_network
+    command: 
+      - --character-set-server=utf8mb4
+      - --collation-server=utf8mb4_unicode_ci
+      - --max_connections=20
+      - --wait_timeout=10
+      - --bind-address=127.0.0.1 
+    user: "1000:1000"  
 
   postgres:
-    image: postgres:13
-    container_name: postgres
+    image: postgres:latest
+    container_name: lab_postgres
     environment:
-      POSTGRES_PASSWORD: postgrespass
+      POSTGRES_PASSWORD: rootpassword
+      POSTGRES_USER: postgres
+      POSTGRES_DB: testdb
     volumes:
-      - postgres_data:/home/db/postgres
-      - ./postgres/postgresql.conf:/etc/postgresql/postgresql.conf
-      - ./postgres/init.sql:/docker-entrypoint-initdb.d/init.sql
-    command: ["postgres", "-c", "config_file=/etc/postgresql/postgresql.conf"]
+      - ./home/db/postgres:/var/lib/postgresql/data 
+      - ./config/postgres:/etc/postgresql 
+    ports:
+      - "127.0.0.1:5432:5432" 
     networks:
-      - backend
+      - db_network
+    command: 
+      - -c
+      - max_connections=20
+      - -c
+      - idle_in_transaction_session_timeout=10000
+      - -c
+      - listen_addresses=127.0.0.1  
+    user: "1000:1000"  
 
   wordpress:
-    image: wordpress:php7.4-apache
-    container_name: wordpress
-    ports:
-      - "8080:80"
-    environment:
-      WORDPRESS_DB_HOST: mariadb
-      WORDPRESS_DB_USER: testuser
-      WORDPRESS_DB_PASSWORD: newpassword
-      WORDPRESS_DB_NAME: testdb
-    volumes:
-      - ./wordpress/wp-config.php:/var/www/html/wp-config.php
+    image: wordpress:latest
+    container_name: lab_wordpress
     depends_on:
       - mariadb
+    environment:
+      WORDPRESS_DB_HOST: lab_mariadb:3306
+      WORDPRESS_DB_USER: testuser
+      WORDPRESS_DB_PASSWORD: testpassword
+      WORDPRESS_DB_NAME: testdb
+    volumes:
+      - wordpress_data:/var/www/html
+    ports:
+      - "8080:80"
     networks:
-      - backend
+      - db_network
+    restart: unless-stopped
 
 volumes:
-  mariadb_data:
-  postgres_data:
+  wordpress_data:
 
 networks:
-  backend:
+  db_network:
+    driver: bridge
