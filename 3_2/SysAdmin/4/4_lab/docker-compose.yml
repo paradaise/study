@@ -10,8 +10,7 @@ services:
       MYSQL_USER: testuser
       MYSQL_PASSWORD: testpassword
     volumes:
-      - ./home/db/mysql:/var/lib/mysql  
-      - ./config/mysql:/etc/mysql/conf.d 
+      - ./home/db/mysql:/var/lib/mysql   
     ports:
       - "127.0.0.1:3306:3306" 
     networks:
@@ -33,7 +32,6 @@ services:
       POSTGRES_DB: testdb
     volumes:
       - ./home/db/postgres:/var/lib/postgresql/data 
-      - ./config/postgres:/etc/postgresql 
     ports:
       - "127.0.0.1:5432:5432" 
     networks:
@@ -58,15 +56,13 @@ services:
       WORDPRESS_DB_PASSWORD: testpassword
       WORDPRESS_DB_NAME: testdb
     volumes:
-      - wordpress_data:/var/www/html
+      - ./wordpress_data:/var/www/html
     ports:
       - "8080:80"
     networks:
       - db_network
     restart: unless-stopped
 
-volumes:
-  wordpress_data:
 
 networks:
   db_network:
