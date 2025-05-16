@@ -1,1 +1,0 @@
-/usr/lib/postgresql/17/bin/postgres "-c" "max_connections=20" "-c" "idle_in_transaction_session_timeout=10000" "-c" "listen_addresses=127.0.0.1"
