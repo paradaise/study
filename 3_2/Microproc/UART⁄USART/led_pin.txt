@@ -1,0 +1,16 @@
+const int ledPin = 8;
+
+void setup() {
+  pinMode(ledPin, OUTPUT);
+  Serial.begin(9600);
+  digitalWrite(ledPin, LOW); // Изначально выключен
+}
+
+void loop() {
+  if (Serial.available() > 0) {
+    char command = Serial.read();
+    
+    if (command == '1') digitalWrite(ledPin, HIGH); // Включить
+    if (command == '0') digitalWrite(ledPin, LOW);  // Выключить
+  }
+}
