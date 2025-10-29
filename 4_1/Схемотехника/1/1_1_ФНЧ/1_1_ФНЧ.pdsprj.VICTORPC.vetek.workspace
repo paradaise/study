@@ -35,7 +35,7 @@
    <POPUP w="695" x="997" flags="00000000" y="302" h="453" pid="0" iid="3">
     <PROPERTIES/>
    </POPUP>
-   <POPUP w="511" x="537" flags="00000000" y="590" h="147" pid="0" iid="4">
+   <POPUP w="511" x="537" flags="00000001" y="590" h="147" pid="0" iid="4">
     <PROPERTIES/>
    </POPUP>
   </PWI>
