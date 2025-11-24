@@ -1,0 +1,21 @@
+Настройка ACL для ipv6 
+
+1) Создали именной ACL BLOCK_HTTP на R1 - запретили http и https трафик для PC2
+en
+show access-lists
+
+
+2) Создали именной ACL BLOCK_ICMP на R3 - блокирует весь ICMP-трафик
+en
+show access-lists
+
+Проверка с PC1:
+Web Browser ->  http://2001:DB8:1:30::30 - работает
+Web Browser ->  https://2001:DB8:1:30::30 - работает
+Command Promt -> ping 2001:DB8:1:30::30 - не работает
+
+Проверка с PC2:
+Web Browser ->  http://2001:DB8:1:30::30 - не работает
+Web Browser ->  https://2001:DB8:1:30::30 - не работает
+Command Promt -> ping 2001:DB8:1:30::30 - не работает
+

@@ -1,0 +1,12 @@
+Настройка ACL на маршрутизаторах
+
+1) Проверка R1 ( ACL 120)
+
+пароль от консоли ciscoconpa55
+en ( пароль ciscoenpa55)
+#show access-lists
+2) Проверка R3 ( ACL 100)
+
+пароль от консоли ciscoconpa55
+en ( пароль ciscoenpa55)
+#show access-lists
