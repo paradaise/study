@@ -1,0 +1,13 @@
+R2# show ip dhcp binding          // Какие адреса выданы и кому (MAC)
+R2# show ip dhcp pool     // Статистика пулов (сколько выдано, диапазон)
+
+
+R2# show ip nat translations      // Активные трансляции (static + dynamic/PAT)
+R2# show ip nat statistics        // Статистика NAT, интерфейсы inside/outside, типы
+
+R2# show running-config | section ip nat
+R2# show running-config | section interface | include nat
+
+
+R1# show ip route
+R2# show ip route

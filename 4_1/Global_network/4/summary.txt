@@ -1,0 +1,17 @@
+R1# show ip eigrp neighbors
+R2# show ip eigrp neighbors
+R3# show ip eigrp neighbors
+
+
+R1# show ip protocols            
+R2# show ip protocols
+R3# show ip protocols
+
+
+R1# show ip route
+R2# show ip route
+R3# show ip route
+
+
+R1# show ip eigrp topology
+R3# show ip eigrp topology 

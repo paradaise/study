@@ -1,0 +1,22 @@
+R1# show ip route
+R2# show ip route
+R3# show ip route
+
+R1# show ip protocols
+R2# show ip protocols
+R3# show ip protocols
+
+
+
+R1# show ip rip database 
+R2# show ip rip database
+R3# show ip rip database
+
+R1# show ip interface brief
+R3# show ip interface brief
+
+
+PC1 > ping 172.16.100.10   
+R1# ping 172.16.200.10
+R3# ping 172.16.100.10
+R1# ping 203.0.113.2 
