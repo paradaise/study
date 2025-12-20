@@ -8,4 +8,4 @@ R2# show running-config | section interface Serial0/0
 R2# show running-config | section interface Serial0/1
 R3# show running-config | section interface Serial0/1
 
-PINC PC1 -> PC3
+PINC PC1 -> PC3ч
